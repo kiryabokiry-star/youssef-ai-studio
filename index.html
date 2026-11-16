@@ -2,389 +2,311 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Youssef AI Studio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Youssef AI Studio</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #0b1020;
-      color: #fff;
-      min-height: 100vh;
-    }
+body{
+font-family:Arial,sans-serif;
+background:#0b1020;
+color:#fff;
+min-height:100vh;
+}
 
-    header {
-      padding: 22px 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #252c42;
-    }
+header{
+padding:22px 7%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #252c42;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: #8b7cff;
-    }
+.logo{font-size:22px;font-weight:bold;color:#8b7cff}
+.tag{color:#aaa;font-size:12px}
 
-    .tag {
-      color: #aaa;
-      font-size: 12px;
-    }
+main{
+width:92%;
+max-width:900px;
+margin:45px auto;
+text-align:center;
+}
 
-    main {
-      width: 92%;
-      max-width: 900px;
-      margin: 55px auto;
-      text-align: center;
-    }
+h1{font-size:34px;margin-bottom:14px}
+.subtitle{color:#aab0c5;margin-bottom:30px;line-height:1.8}
 
-    h1 {
-      font-size: 36px;
-      margin-bottom: 14px;
-    }
+.tools{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:12px;
+margin-bottom:25px;
+}
 
-    .subtitle {
-      color: #aab0c5;
-      margin-bottom: 35px;
-      line-height: 1.8;
-    }
+.tool{
+background:#171e33;
+border:1px solid #303953;
+color:white;
+padding:13px 20px;
+border-radius:12px;
+}
 
-    .tools {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 25px;
-    }
+.tool.active{background:#6554e8}
+.tool:disabled{opacity:.4}
 
-    .tool {
-      background: #171e33;
-      border: 1px solid #303953;
-      color: white;
-      padding: 13px 20px;
-      border-radius: 12px;
-      cursor: pointer;
-    }
+.panel{
+background:#141b2e;
+border:1px solid #303953;
+border-radius:20px;
+padding:25px;
+text-align:right;
+}
 
-    .tool.active {
-      background: #6554e8;
-      border-color: #897bff;
-    }
+label{
+display:block;
+margin:18px 0 10px;
+font-weight:bold;
+}
 
-    .tool:disabled {
-      opacity: .4;
-      cursor: not-allowed;
-    }
+textarea,select{
+width:100%;
+padding:15px;
+border-radius:12px;
+border:1px solid #38435f;
+background:#0c1222;
+color:white;
+font-size:16px;
+outline:none;
+}
 
-    .panel {
-      background: #141b2e;
-      border: 1px solid #303953;
-      border-radius: 20px;
-      padding: 25px;
-      text-align: right;
-    }
+textarea{min-height:120px;resize:vertical}
+textarea:focus,select:focus{border-color:#8878ff}
 
-    label {
-      display: block;
-      margin-bottom: 12px;
-      font-weight: bold;
-    }
+.generate{
+width:100%;
+margin-top:22px;
+padding:16px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#6755e9,#9b63e8);
+color:white;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+}
 
-    textarea,
-    select {
-      width: 100%;
-      padding: 15px;
-      border-radius: 12px;
-      border: 1px solid #38435f;
-      background: #0c1222;
-      color: white;
-      font-size: 16px;
-      outline: none;
-    }
+.generate:disabled{opacity:.6;cursor:wait}
 
-    textarea {
-      min-height: 125px;
-      resize: vertical;
-    }
+#status{
+text-align:center;
+margin-top:20px;
+color:#c4baff;
+line-height:1.8;
+overflow-wrap:anywhere;
+}
 
-    textarea:focus,
-    select:focus {
-      border-color: #8878ff;
-    }
+#resultBox{margin-top:25px;text-align:center}
 
-    select {
-      margin-bottom: 5px;
-      cursor: pointer;
-    }
+#generatedImage{
+width:100%;
+max-width:650px;
+height:auto;
+border-radius:15px;
+display:block;
+margin:15px auto;
+}
 
-    .generate {
-      width: 100%;
-      margin-top: 20px;
-      padding: 16px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(90deg, #6755e9, #9b63e8);
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.download{
+display:inline-block;
+padding:12px 22px;
+background:#242e49;
+color:white;
+text-decoration:none;
+border-radius:10px;
+margin-top:10px;
+}
 
-    .generate:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
+footer{
+text-align:center;
+padding:30px;
+color:#777f99;
+font-size:13px;
+}
 
-    #status {
-      text-align: center;
-      margin-top: 20px;
-      color: #c4baff;
-      line-height: 1.8;
-      overflow-wrap: anywhere;
-    }
-
-    #resultBox {
-      margin-top: 25px;
-      text-align: center;
-    }
-
-    #generatedImage {
-      width: 100%;
-      max-width: 650px;
-      border-radius: 15px;
-      display: block;
-      margin: 15px auto;
-    }
-
-    .download {
-      display: inline-block;
-      padding: 12px 22px;
-      background: #242e49;
-      color: white;
-      text-decoration: none;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: #777f99;
-      font-size: 13px;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 27px;
-      }
-
-      main {
-        margin-top: 35px;
-      }
-
-      .panel {
-        padding: 17px;
-      }
-    }
-  </style>
+@media(max-width:600px){
+h1{font-size:27px}
+main{margin-top:30px}
+.panel{padding:17px}
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <div class="logo">Youssef AI Studio</div>
-  <div class="tag">CREATE WITHOUT LIMITS</div>
+<div class="logo">Youssef AI Studio</div>
+<div class="tag">CREATE WITHOUT LIMITS</div>
 </header>
 
 <main>
 
-  <h1>اصنع أفكارك بالذكاء الاصطناعي</h1>
+<h1>اصنع أفكارك بالذكاء الاصطناعي</h1>
 
-  <p class="subtitle">
-    حوّل أفكارك إلى صور إبداعية باستخدام الذكاء الاصطناعي.
-  </p>
+<p class="subtitle">
+حوّل أفكارك إلى صور إبداعية باستخدام الذكاء الاصطناعي.
+</p>
 
-  <div class="tools">
-    <button class="tool" disabled>
-      🎬 Text to Video قريبًا
-    </button>
+<div class="tools">
+<button class="tool" disabled>🎬 Text to Video قريبًا</button>
+<button class="tool" disabled>🖼️ Image to Video قريبًا</button>
+<button class="tool active">🎨 AI Image</button>
+</div>
 
-    <button class="tool" disabled>
-      🖼️ Image to Video قريبًا
-    </button>
+<section class="panel">
 
-    <button class="tool active" type="button">
-      🎨 AI Image
-    </button>
-  </div>
+<label for="prompt">اكتب وصف الصورة التي تريد إنشاءها</label>
 
-  <section class="panel">
+<textarea
+id="prompt"
+placeholder="مثال: A beautiful futuristic city at sunset..."
+></textarea>
 
-    <label for="prompt">
-      اكتب وصف الصورة التي تريد إنشاءها
-    </label>
+<label for="ratio">📐 أبعاد الصورة</label>
 
-    <textarea
-      id="prompt"
-      placeholder="مثال: A futuristic city at sunset, cinematic lighting, ultra realistic..."
-    ></textarea>
+<select id="ratio">
+<option value="square">مربع 1:1 – Instagram</option>
+<option value="portrait">طولي 9:16 – TikTok & Reels</option>
+<option value="landscape">عرضي 16:9 – YouTube</option>
+</select>
 
-    <label for="ratio" style="margin-top:22px;">
-      اختر أبعاد الصورة
-    </label>
+<label for="style">🎨 اختر نمط الصورة</label>
 
-    <select id="ratio">
-      <option value="square">
-        مربع 1:1 – منشورات إنستجرام
-      </option>
+<select id="style">
+<option value="none">بدون نمط – Default</option>
+<option value="realistic">واقعي – Realistic</option>
+<option value="anime">أنيمي – Anime</option>
+<option value="cinematic">سينمائي – Cinematic</option>
+<option value="3d">ثلاثي الأبعاد – 3D</option>
+<option value="watercolor">ألوان مائية – Watercolor</option>
+<option value="oil">رسم زيتي – Oil Painting</option>
+<option value="vector">فيكتور – Vector Art</option>
+<option value="cyberpunk">سايبربانك – Cyberpunk</option>
+<option value="pixel">بيكسل آرت – Pixel Art</option>
+<option value="fantasy">فانتازيا – Fantasy</option>
+<option value="retro">ريترو – Retro</option>
+<option value="comic">كوميكس – Comic</option>
+</select>
 
-      <option value="portrait">
-        طولي 9:16 – تيك توك وريلز
-      </option>
+<button class="generate" id="generateBtn" type="button">
+✨ إنشاء الصورة
+</button>
 
-      <option value="landscape">
-        عرضي 16:9 – يوتيوب
-      </option>
-    </select>
+<div id="status" aria-live="polite"></div>
 
-    <button
-      class="generate"
-      id="generateBtn"
-      type="button"
-    >
-      ✨ إنشاء الصورة
-    </button>
+<div id="resultBox"></div>
 
-    <div id="status" aria-live="polite"></div>
-
-    <div id="resultBox"></div>
-
-  </section>
-
+</section>
 </main>
 
 <footer>
-  © 2026 Youssef AI Studio — Create Without Limits
+© 2026 Youssef AI Studio — Create Without Limits
 </footer>
 
 <script>
-
 const WORKER_URL =
-  'https://youssef-ai-studio-api.kiryabokiry.workers.dev';
+'https://youssef-ai-studio-api.kiryabokiry.workers.dev';
 
-const promptInput = document.getElementById('prompt');
-const ratioInput = document.getElementById('ratio');
-const statusBox = document.getElementById('status');
-const generateBtn = document.getElementById('generateBtn');
-const resultBox = document.getElementById('resultBox');
+const promptInput=document.getElementById('prompt');
+const ratioInput=document.getElementById('ratio');
+const styleInput=document.getElementById('style');
+const statusBox=document.getElementById('status');
+const generateBtn=document.getElementById('generateBtn');
+const resultBox=document.getElementById('resultBox');
 
-let currentImageUrl = null;
+let currentImageUrl=null;
 
-generateBtn.addEventListener('click', generate);
+generateBtn.addEventListener('click',generate);
 
-async function generate() {
+async function generate(){
 
-  const prompt = promptInput.value.trim();
-  const ratio = ratioInput.value;
+const prompt=promptInput.value.trim();
+const ratio=ratioInput.value;
+const style=styleInput.value;
 
-  if (!prompt) {
-    statusBox.textContent = 'اكتب وصف الصورة أولاً.';
-    promptInput.focus();
-    return;
-  }
-
-  generateBtn.disabled = true;
-  generateBtn.textContent = '⏳ جاري إنشاء الصورة...';
-
-  statusBox.textContent =
-    'جاري إنشاء صورتك، انتظر قليلاً...';
-
-  resultBox.innerHTML = '';
-
-  try {
-
-    const response = await fetch(WORKER_URL, {
-      method: 'POST',
-
-      headers: {
-        'Content-Type': 'application/json'
-      },
-
-      body: JSON.stringify({
-        prompt: prompt,
-        ratio: ratio
-      })
-    });
-
-    if (!response.ok) {
-
-      const errorText = await response.text();
-
-      throw new Error(
-        'خطأ من الخادم (' +
-        response.status +
-        '): ' +
-        errorText.slice(0, 250)
-      );
-    }
-
-    const contentType =
-      response.headers.get('Content-Type') || '';
-
-    if (!contentType.startsWith('image/')) {
-      throw new Error('الخادم لم يُرجع ملف صورة.');
-    }
-
-    const blob = await response.blob();
-
-    if (currentImageUrl) {
-      URL.revokeObjectURL(currentImageUrl);
-    }
-
-    currentImageUrl = URL.createObjectURL(blob);
-
-    const image = document.createElement('img');
-
-    image.id = 'generatedImage';
-    image.src = currentImageUrl;
-    image.alt = prompt;
-
-    const download = document.createElement('a');
-
-    download.className = 'download';
-    download.href = currentImageUrl;
-    download.download = 'youssef-ai-image.png';
-    download.textContent = '⬇️ تحميل الصورة';
-
-    resultBox.appendChild(image);
-    resultBox.appendChild(download);
-
-    statusBox.textContent =
-      'تم إنشاء الصورة بنجاح! 🎉';
-
-  } catch (error) {
-
-    console.error(error);
-
-    statusBox.textContent =
-      'لم تنجح العملية: ' + error.message;
-
-  } finally {
-
-    generateBtn.disabled = false;
-    generateBtn.textContent = '✨ إنشاء الصورة';
-
-  }
+if(!prompt){
+statusBox.textContent='اكتب وصف الصورة أولاً.';
+promptInput.focus();
+return;
 }
 
+generateBtn.disabled=true;
+generateBtn.textContent='⏳ جاري إنشاء الصورة...';
+statusBox.textContent='جاري إنشاء صورتك، انتظر قليلاً...';
+resultBox.innerHTML='';
+
+try{
+
+const response=await fetch(WORKER_URL,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+prompt:prompt,
+ratio:ratio,
+style:style
+})
+});
+
+if(!response.ok){
+const errorText=await response.text();
+throw new Error(
+'خطأ من الخادم ('+response.status+'): '+errorText.slice(0,250)
+);
+}
+
+const contentType=response.headers.get('Content-Type')||'';
+
+if(!contentType.startsWith('image/')){
+throw new Error('الخادم لم يُرجع ملف صورة.');
+}
+
+const blob=await response.blob();
+
+if(currentImageUrl){
+URL.revokeObjectURL(currentImageUrl);
+}
+
+currentImageUrl=URL.createObjectURL(blob);
+
+const image=document.createElement('img');
+image.id='generatedImage';
+image.src=currentImageUrl;
+image.alt=prompt;
+
+const download=document.createElement('a');
+download.className='download';
+download.href=currentImageUrl;
+download.download='youssef-ai-image.png';
+download.textContent='⬇️ تحميل الصورة';
+
+resultBox.appendChild(image);
+resultBox.appendChild(download);
+
+statusBox.textContent='تم إنشاء الصورة بنجاح! 🎉';
+
+}catch(error){
+
+console.error(error);
+statusBox.textContent='لم تنجح العملية: '+error.message;
+
+}finally{
+
+generateBtn.disabled=false;
+generateBtn.textContent='✨ إنشاء الصورة';
+
+}
+}
 </script>
 
 </body>
