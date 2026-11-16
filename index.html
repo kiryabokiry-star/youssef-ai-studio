@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Youssef AI Studio</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1020;color:#f4f5ff;font-family:Arial,sans-serif}
+header{padding:20px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #252c42}
+.logo{font-size:23px;font-weight:bold;color:#9b8cff}
+.logo span{color:#fff}
+.tag{font-size:12px;background:#202943;padding:8px 12px;border-radius:20px}
+main{max-width:1050px;margin:auto;padding:35px 18px}
+h1{font-size:30px;margin-bottom:8px}
+.sub{color:#a6aec4;line-height:1.8}
+.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:28px 0}
+.tool{background:#151d32;border:1px solid #29334e;color:white;border-radius:14px;padding:18px 8px;text-align:center;cursor:pointer}
+.tool.active{border-color:#927cff;background:#272344}
+.tool b{display:block;margin-top:10px}
+.panel{background:#151d32;border:1px solid #29334e;border-radius:18px;padding:22px}
+label{display:block;margin:18px 0 9px;font-weight:bold}
+textarea,input{width:100%;background:#0c1325;border:1px solid #303b57;color:white;padding:14px;border-radius:10px;font-size:15px}
+textarea{height:115px;resize:vertical}
+.upload{border:2px dashed #465071;padding:25px;text-align:center;border-radius:12px;color:#b5bdd2}
+button{border:0;border-radius:10px;padding:14px 20px;background:#8067f5;color:white;font-size:16px;font-weight:bold;cursor:pointer}
+button:active{opacity:.8}
+.generate{width:100%;margin-top:20px}
+.note{color:#a6aec4;font-size:13px;line-height:1.8;margin-top:16px}
+#preview{max-width:100%;max-height:220px;margin-top:15px;border-radius:10px;display:none}
+footer{text-align:center;color:#77819c;padding:30px;font-size:13px}
+@media(max-width:600px){.tools{grid-template-columns:1fr}.tool{padding:14px}h1{font-size:25px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">Youssef <span>AI Studio</span></div>
+ <div class="tag">AI CREATIVE STUDIO</div>
+</header>
+
+<main>
+ <h1>اصنع أفكارك بالذكاء الاصطناعي ✨</h1>
+ <p class="sub">منصة واحدة لإنشاء الصور والفيديوهات وتحويل أفكارك إلى محتوى إبداعي.</p>
+
+ <div class="tools">
+  <div class="tool active" onclick="choose('video',this)">🎬<b>Text to Video</b></div>
+  <div class="tool" onclick="choose('image',this)">🖼️<b>Image to Video</b></div>
+  <div class="tool" onclick="choose('picture',this)">🎨<b>AI Image</b></div>
+ </div>
+
+ <section class="panel">
+  <h2 id="heading">🎬 تحويل النص إلى فيديو</h2>
+  <label>اكتب وصف فكرتك</label>
+  <textarea id="prompt" placeholder="مثلاً: فيديو سينمائي لشروق الشمس فوق الجبال..."></textarea>
+
+  <div id="uploadArea" style="display:none">
+   <label>ارفع الصورة التي تريد استخدامها</label>
+   <div class="upload">
+    <input type="file" id="file" accept="image/*">
+    <img id="preview">
+   </div>
+  </div>
+
+  <label>مدة الفيديو</label>
+  <select id="duration" style="width:100%;padding:13px;background:#0c1325;color:white;border:1px solid #303b57;border-radius:10px">
+   <option>5 ثوانٍ</option>
+   <option>10 ثوانٍ</option>
+   <option>15 ثانية</option>
+   <option>30 ثانية</option>
+  </select>
+
+  <button class="generate" onclick="generate()">✨ ابدأ الإنشاء</button>
+  <p class="note" id="status">هذه النسخة هي واجهة البداية. محرك التوليد الحقيقي سيتم ربطه في المرحلة التالية.</p>
+ </section>
+</main>
+
+<footer>© 2026 Youssef AI Studio — Create Without Limits</footer>
+
+<script>
+let mode='video';
+function choose(type,el){
+ mode=type;
+ document.querySelectorAll('.tool').forEach(x=>x.classList.remove('active'));
+ el.classList.add('active');
+ document.getElementById('uploadArea').style.display=
+ type==='video'?'none':'block';
+ document.getElementById('heading').textContent=
+ type==='video'?'🎬 تحويل النص إلى فيديو':
+ type==='image'?'🖼️ تحويل الصورة إلى فيديو':'🎨 إنشاء صورة بالذكاء الاصطناعي';
+}
+document.getElementById('file').addEventListener('change',function(){
+ if(this.files[0]){
+  let img=document.getElementById('preview');
+  img.src=URL.createObjectURL(this.files[0]);
+  img.style.display='block';
+ }
+});
+function generate(){
+ let p=document.getElementById('prompt').value.trim();
+ if(!p){alert('اكتب وصف فكرتك أولاً');return;}
+ document.getElementById('status').textContent=
+ 'تم تجهيز طلبك. سيتم تفعيل التوليد عند ربط محرك الذكاء الاصطناعي.';
+}
+</script>
+</body>
+</html>
