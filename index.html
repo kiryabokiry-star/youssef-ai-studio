@@ -8,34 +8,88 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#090d18;color:#fff;font-family:Arial,sans-serif;min-height:100vh}
-header{padding:24px 7%;border-bottom:1px solid #202a40;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-.logo{font-size:23px;font-weight:bold;color:#9d8cff}
+header{padding:22px 7%;border-bottom:1px solid #202a40;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.logo{font-size:23px;font-weight:bold;color:#a18aff}
 .logo span{color:white}
-.tag{font-size:11px;color:#a8aabd;letter-spacing:2px}
-nav{display:flex;gap:18px;align-items:center}
-nav a{color:#c4b8ff;text-decoration:none;font-size:14px}
-main{max-width:1000px;margin:40px auto;padding:0 18px}
-h1{text-align:center;font-size:36px;margin-bottom:8px}
+.tag{font-size:10px;color:#9ba5bd;letter-spacing:2px;margin-top:5px}
+nav{display:flex;gap:20px}
+nav a{color:#c5baff;text-decoration:none;font-size:14px}
+main{max-width:1100px;margin:38px auto;padding:0 18px}
+h1{text-align:center;font-size:35px;margin:0 0 9px}
 .subtitle{text-align:center;color:#9ba5bd;margin-bottom:35px}
 .panel{background:#111a2c;border:1px solid #25314a;border-radius:18px;padding:24px;margin-bottom:22px}
-h2{font-size:19px;margin:0 0 15px}
-label{display:block;color:#c2c9dc;font-size:13px;margin:16px 0 8px}
-textarea,select{width:100%;background:#0b1220;color:white;border:1px solid #34415c;border-radius:10px;padding:13px;font-size:15px;outline:none}
-textarea{min-height:110px;resize:vertical;line-height:1.6}
-textarea:focus,select:focus{border-color:#9d8cff}
-button{border:0;border-radius:10px;padding:13px 18px;font-weight:bold;cursor:pointer;font-size:14px;transition:.2s}
+h2{font-size:19px;margin:0 0 8px}
+.description{font-size:13px;color:#929db5;margin:0 0 20px;line-height:1.6}
+label{display:block;color:#c2c9dc;font-size:13px;margin:16px 0 9px}
+textarea{width:100%;background:#0b1220;color:white;border:1px solid #34415c;border-radius:10px;padding:14px;font-size:15px;outline:none;min-height:110px;resize:vertical;line-height:1.6}
+textarea:focus{border-color:#9d8cff}
+button{border:0;border-radius:10px;padding:12px 17px;font-weight:bold;cursor:pointer;font-size:13px;transition:.2s}
 button:hover{opacity:.88;transform:translateY(-1px)}
+button:disabled{opacity:.5;cursor:wait;transform:none}
 .primary{background:#8466f5;color:white}
 .secondary{background:#26334c;color:white}
 .green{background:#167e68;color:white}
-button:disabled{opacity:.5;cursor:wait;transform:none}
 .buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.result{display:none;margin-top:20px}
-.result img{width:100%;border-radius:12px;display:block}
 .status{color:#aab4cc;font-size:13px;margin-top:12px;line-height:1.6}
+.result{display:none;margin-top:22px}
+.result img{width:100%;max-height:650px;object-fit:contain;border-radius:12px;background:#080d18}
+.section-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:22px 0 13px}
+.section-heading h3{font-size:15px;margin:0}
+.section-heading span{font-size:11px;color:#8e9ab2}
+.ratio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ratio-card{
+ background:#0b1220;border:1px solid #303d57;border-radius:13px;
+ color:white;padding:13px 8px;display:flex;flex-direction:column;
+ align-items:center;gap:9px;min-height:145px
+}
+.ratio-card.active{border:2px solid #a18aff;background:#211b3c;box-shadow:0 0 16px #8466f533}
+.ratio-preview{height:65px;width:65px;display:flex;align-items:center;justify-content:center}
+.ratio-shape{border:2px solid #ad9bff;background:#29234b;border-radius:5px}
+.square-shape{width:48px;height:48px}
+.portrait-shape{width:34px;height:60px}
+.landscape-shape{width:64px;height:37px}
+.ratio-name{font-size:12px;font-weight:bold}
+.ratio-detail{font-size:10px;color:#a5afc5}
+.style-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.style-card{
+ background:#0b1220;border:1px solid #303d57;border-radius:13px;
+ padding:7px;color:white;text-align:left;min-width:0
+}
+.style-card.active{border:2px solid #a18aff;background:#211b3c;box-shadow:0 0 15px #8466f533}
+.art{
+ height:110px;border-radius:9px;overflow:hidden;position:relative;
+ display:flex;align-items:center;justify-content:center;
+ font-size:44px;background:linear-gradient(140deg,#29395d,#7655a6)
+}
+.art:before{content:"";position:absolute;width:85px;height:85px;border-radius:50%;background:#ffffff20;top:-35px;right:-15px}
+.art:after{content:"";position:absolute;width:100px;height:32px;bottom:-12px;left:-15px;background:#ffffff20;transform:rotate(-18deg);border-radius:50%}
+.art span{position:relative;z-index:1;filter:drop-shadow(0 5px 5px #0008)}
+.art.default{background:linear-gradient(135deg,#26364f,#8c70c8)}
+.art.realistic{background:linear-gradient(145deg,#8c9b9f,#293d45)}
+.art.anime{background:linear-gradient(135deg,#f3a6d0,#6659a8)}
+.art.cinematic{background:linear-gradient(135deg,#101d35,#bd784c)}
+.art.three-d{background:linear-gradient(135deg,#394e81,#8a68ca)}
+.art.watercolor{background:linear-gradient(135deg,#8bc7d3,#d9a6c5)}
+.art.oil{background:linear-gradient(135deg,#8d5136,#d1a05a)}
+.art.vector{background:linear-gradient(135deg,#e3a64c,#d65f72)}
+.art.cyberpunk{background:linear-gradient(135deg,#1d1b65,#d02caa)}
+.art.pixel{background:linear-gradient(135deg,#234d5a,#4e9c83)}
+.art.fantasy{background:linear-gradient(135deg,#2e275d,#8b65a7)}
+.art.retro{background:linear-gradient(135deg,#b96b4b,#e6bd7b)}
+.art.comic{background:linear-gradient(135deg,#e44e4e,#f0b33e)}
+.style-name{font-size:12px;font-weight:bold;margin:9px 2px 4px}
+.style-desc{font-size:10px;color:#9ba5bd;line-height:1.4;margin:0 2px 5px;min-height:27px}
+.selected-info{font-size:12px;color:#c5baff;margin-top:13px}
 footer{text-align:center;color:#727e96;padding:30px;font-size:12px}
-@media(max-width:600px){header{padding:18px}h1{font-size:28px}.panel{padding:17px}.grid{grid-template-columns:1fr}.buttons button{flex:1}}
+@media(max-width:750px){.style-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:480px){
+ header{padding:17px}
+ h1{font-size:27px}
+ .panel{padding:16px}
+ .style-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .art{height:100px}
+ .ratio-card{min-height:135px}
+}
 </style>
 </head>
 <body>
@@ -57,10 +111,10 @@ footer{text-align:center;color:#727e96;padding:30px;font-size:12px}
 
  <section class="panel">
   <h2>✨ Prompt Enhancer</h2>
-  <p style="color:#9ba5bd;font-size:13px">Turn a simple idea into a detailed image prompt.</p>
+  <p class="description">Turn your simple idea into a detailed image prompt.</p>
 
-  <label for="prompt">Your idea</label>
-  <textarea id="prompt" placeholder="Example: A cat in space..."></textarea>
+  <label for="prompt">Describe your idea</label>
+  <textarea id="prompt" placeholder="Example: A beautiful cat in space..."></textarea>
 
   <div class="buttons">
    <button class="primary" id="enhanceBtn" onclick="enhancePrompt()">✨ Enhance Prompt</button>
@@ -80,33 +134,126 @@ footer{text-align:center;color:#727e96;padding:30px;font-size:12px}
 
  <section class="panel">
   <h2>🎨 AI Image Generator</h2>
+  <p class="description">Choose your platform size and visual style, then create your image.</p>
 
-  <label for="ratio">Image Dimensions</label>
-  <select id="ratio">
-   <option value="square">Square (1:1)</option>
-   <option value="portrait">Portrait (9:16)</option>
-   <option value="landscape">Landscape (16:9)</option>
-  </select>
+  <div class="section-heading">
+   <h3>📐 Choose Image Size</h3>
+   <span>SELECT YOUR PLATFORM</span>
+  </div>
 
-  <label for="style">Choose Image Style</label>
-  <select id="style">
-   <option value="none">Default</option>
-   <option value="realistic">Realistic</option>
-   <option value="anime">Anime</option>
-   <option value="cinematic">Cinematic</option>
-   <option value="3d">3D Render</option>
-   <option value="watercolor">Watercolor</option>
-   <option value="oil">Oil Painting</option>
-   <option value="vector">Vector Art</option>
-   <option value="cyberpunk">Cyberpunk</option>
-   <option value="pixel">Pixel Art</option>
-   <option value="fantasy">Fantasy</option>
-   <option value="retro">Retro</option>
-   <option value="comic">Comic Book</option>
-  </select>
+  <div class="ratio-grid">
+   <button class="ratio-card active" data-ratio="square" onclick="chooseRatio('square',this)">
+    <div class="ratio-preview"><div class="ratio-shape square-shape"></div></div>
+    <div class="ratio-name">Instagram Post</div>
+    <div class="ratio-detail">1:1 · Square</div>
+   </button>
 
-  <div class="buttons">
-   <button class="primary" id="generateBtn" onclick="generateImage()">Generate Image</button>
+   <button class="ratio-card" data-ratio="portrait" onclick="chooseRatio('portrait',this)">
+    <div class="ratio-preview"><div class="ratio-shape portrait-shape"></div></div>
+    <div class="ratio-name">TikTok / Reels</div>
+    <div class="ratio-detail">9:16 · Vertical</div>
+   </button>
+
+   <button class="ratio-card" data-ratio="landscape" onclick="chooseRatio('landscape',this)">
+    <div class="ratio-preview"><div class="ratio-shape landscape-shape"></div></div>
+    <div class="ratio-name">YouTube</div>
+    <div class="ratio-detail">16:9 · Landscape</div>
+   </button>
+  </div>
+
+  <div class="selected-info" id="ratioInfo">Selected: Instagram Post · Square</div>
+
+  <div class="section-heading" style="margin-top:30px">
+   <h3>🖌 Choose Your Style</h3>
+   <span>12+ VISUAL STYLES</span>
+  </div>
+
+  <div class="style-grid" id="styleGrid">
+
+   <button class="style-card active" data-style="none" onclick="chooseStyle('none',this)">
+    <div class="art default"><span>🎨</span></div>
+    <div class="style-name">Default</div>
+    <p class="style-desc">Original AI artwork</p>
+   </button>
+
+   <button class="style-card" data-style="realistic" onclick="chooseStyle('realistic',this)">
+    <div class="art realistic"><span>🐺</span></div>
+    <div class="style-name">Realistic</div>
+    <p class="style-desc">Photorealistic images</p>
+   </button>
+
+   <button class="style-card" data-style="anime" onclick="chooseStyle('anime',this)">
+    <div class="art anime"><span>🌸</span></div>
+    <div class="style-name">Anime</div>
+    <p class="style-desc">Japanese anime artwork</p>
+   </button>
+
+   <button class="style-card" data-style="cinematic" onclick="chooseStyle('cinematic',this)">
+    <div class="art cinematic"><span>🎬</span></div>
+    <div class="style-name">Cinematic</div>
+    <p class="style-desc">Movie-style lighting</p>
+   </button>
+
+   <button class="style-card" data-style="3d" onclick="chooseStyle('3d',this)">
+    <div class="art three-d"><span>🧊</span></div>
+    <div class="style-name">3D Render</div>
+    <p class="style-desc">Three-dimensional art</p>
+   </button>
+
+   <button class="style-card" data-style="watercolor" onclick="chooseStyle('watercolor',this)">
+    <div class="art watercolor"><span>🖌️</span></div>
+    <div class="style-name">Watercolor</div>
+    <p class="style-desc">Soft watercolor painting</p>
+   </button>
+
+   <button class="style-card" data-style="oil" onclick="chooseStyle('oil',this)">
+    <div class="art oil"><span>🖼️</span></div>
+    <div class="style-name">Oil Painting</div>
+    <p class="style-desc">Classic oil paint texture</p>
+   </button>
+
+   <button class="style-card" data-style="vector" onclick="chooseStyle('vector',this)">
+    <div class="art vector"><span>🔶</span></div>
+    <div class="style-name">Vector Art</div>
+    <p class="style-desc">Clean graphic illustration</p>
+   </button>
+
+   <button class="style-card" data-style="cyberpunk" onclick="chooseStyle('cyberpunk',this)">
+    <div class="art cyberpunk"><span>🌃</span></div>
+    <div class="style-name">Cyberpunk</div>
+    <p class="style-desc">Neon futuristic world</p>
+   </button>
+
+   <button class="style-card" data-style="pixel" onclick="chooseStyle('pixel',this)">
+    <div class="art pixel"><span>👾</span></div>
+    <div class="style-name">Pixel Art</div>
+    <p class="style-desc">Retro video game style</p>
+   </button>
+
+   <button class="style-card" data-style="fantasy" onclick="chooseStyle('fantasy',this)">
+    <div class="art fantasy"><span>🐉</span></div>
+    <div class="style-name">Fantasy</div>
+    <p class="style-desc">Magical fantasy worlds</p>
+   </button>
+
+   <button class="style-card" data-style="retro" onclick="chooseStyle('retro',this)">
+    <div class="art retro"><span>📷</span></div>
+    <div class="style-name">Retro</div>
+    <p class="style-desc">Vintage nostalgic look</p>
+   </button>
+
+   <button class="style-card" data-style="comic" onclick="chooseStyle('comic',this)">
+    <div class="art comic"><span>💥</span></div>
+    <div class="style-name">Comic Book</div>
+    <p class="style-desc">Bold comic illustrations</p>
+   </button>
+
+  </div>
+
+  <div class="selected-info" id="styleInfo">Selected: Default</div>
+
+  <div class="buttons" style="margin-top:25px">
+   <button class="primary" id="generateBtn" onclick="generateImage()">✨ Generate Image</button>
   </div>
 
   <div class="status" id="imageStatus"></div>
@@ -114,7 +261,7 @@ footer{text-align:center;color:#727e96;padding:30px;font-size:12px}
   <div class="result" id="result">
    <img id="generatedImage" alt="Generated AI image">
    <div class="buttons">
-    <button class="green" onclick="downloadImage()">Download Image</button>
+    <button class="green" onclick="downloadImage()">⬇ Download Image</button>
    </div>
   </div>
  </section>
@@ -127,19 +274,57 @@ const API_URL="https://youssef-ai-studio-api.kiryabokiry.workers.dev";
 const DB_NAME="YoussefAIStudioDB";
 const STORE_NAME="images";
 
+let selectedRatio="square";
+let selectedStyle="none";
 let currentImageURL=null;
+
+function chooseRatio(ratio,button){
+ selectedRatio=ratio;
+ document.querySelectorAll(".ratio-card").forEach(card=>card.classList.remove("active"));
+ button.classList.add("active");
+
+ const names={
+  square:"Instagram Post · Square",
+  portrait:"TikTok / Reels · Vertical",
+  landscape:"YouTube · Landscape"
+ };
+
+ document.getElementById("ratioInfo").textContent="Selected: "+names[ratio];
+}
+
+function chooseStyle(style,button){
+ selectedStyle=style;
+ document.querySelectorAll(".style-card").forEach(card=>card.classList.remove("active"));
+ button.classList.add("active");
+
+ const names={
+  none:"Default",
+  realistic:"Realistic",
+  anime:"Anime",
+  cinematic:"Cinematic",
+  "3d":"3D Render",
+  watercolor:"Watercolor",
+  oil:"Oil Painting",
+  vector:"Vector Art",
+  cyberpunk:"Cyberpunk",
+  pixel:"Pixel Art",
+  fantasy:"Fantasy",
+  retro:"Retro",
+  comic:"Comic Book"
+ };
+
+ document.getElementById("styleInfo").textContent="Selected: "+names[style];
+}
 
 function openDB(){
  return new Promise((resolve,reject)=>{
   const request=indexedDB.open(DB_NAME,1);
-
   request.onupgradeneeded=()=>{
    const db=request.result;
    if(!db.objectStoreNames.contains(STORE_NAME)){
     db.createObjectStore(STORE_NAME,{keyPath:"id"});
    }
   };
-
   request.onsuccess=()=>resolve(request.result);
   request.onerror=()=>reject(request.error);
  });
@@ -147,12 +332,9 @@ function openDB(){
 
 async function saveImage(blob,prompt,style,ratio){
  const db=await openDB();
-
  return new Promise((resolve,reject)=>{
   const tx=db.transaction(STORE_NAME,"readwrite");
-  const store=tx.objectStore(STORE_NAME);
-
-  store.add({
+  tx.objectStore(STORE_NAME).add({
    id:Date.now()+"-"+Math.random().toString(36).slice(2),
    blob:blob,
    prompt:prompt,
@@ -160,7 +342,6 @@ async function saveImage(blob,prompt,style,ratio){
    ratio:ratio,
    createdAt:Date.now()
   });
-
   tx.oncomplete=()=>{db.close();resolve(true)};
   tx.onerror=()=>{db.close();reject(tx.error)};
  });
@@ -201,20 +382,20 @@ async function copyPrompt(){
  const value=document.getElementById("prompt").value;
  if(!value.trim())return alert("Enter a prompt first.");
  try{await navigator.clipboard.writeText(value);alert("Prompt copied!")}
- catch(e){alert("Could not copy. Please copy it manually.")}
+ catch(e){alert("Please copy the text manually.")}
 }
 
 async function copyEnhanced(){
  const value=document.getElementById("enhancedPrompt").value;
  if(!value)return;
  try{await navigator.clipboard.writeText(value);alert("Enhanced prompt copied!")}
- catch(e){alert("Could not copy. Please copy it manually.")}
+ catch(e){alert("Please copy the text manually.")}
 }
 
 async function generateImage(){
  const prompt=document.getElementById("prompt").value.trim();
- const ratio=document.getElementById("ratio").value;
- const style=document.getElementById("style").value;
+ const ratio=selectedRatio;
+ const style=selectedStyle;
  const btn=document.getElementById("generateBtn");
  const status=document.getElementById("imageStatus");
  const result=document.getElementById("result");
@@ -267,7 +448,7 @@ async function generateImage(){
   status.textContent="Error: "+error.message;
  }finally{
   btn.disabled=false;
-  btn.textContent="Generate Image";
+  btn.textContent="✨ Generate Image";
  }
 }
 
