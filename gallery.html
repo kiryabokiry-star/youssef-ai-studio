@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery — Youssef AI Studio</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#090d18;color:#fff;
+ font-family:Arial,sans-serif;min-height:100vh
+}
+header{
+ padding:22px 7%;border-bottom:1px solid #202a40;
+ display:flex;justify-content:space-between;align-items:center;
+ gap:15px
+}
+.logo{font-size:22px;font-weight:bold;color:#9d8cff}
+.logo span{color:white}
+a{color:#a99aff;text-decoration:none}
+button{
+ background:#8466f5;color:white;border:0;border-radius:9px;
+ padding:10px 15px;cursor:pointer;font-weight:bold
+}
+main{max-width:1150px;margin:45px auto;padding:0 20px}
+.top{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:15px;flex-wrap:wrap
+}
+h1{font-size:32px;margin:0 0 8px}
+.sub{color:#9ba5bd;margin:0}
+.grid{
+ display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+ gap:18px;margin-top:30px
+}
+.card{
+ background:#111a2c;border:1px solid #25314a;
+ border-radius:14px;overflow:hidden
+}
+.card img{
+ width:100%;height:230px;object-fit:cover;display:block;
+ background:#080d18
+}
+.info{padding:13px}
+.prompt{
+ color:#dce2f2;font-size:13px;line-height:1.5;
+ overflow-wrap:anywhere;max-height:58px;overflow:hidden
+}
+.meta{font-size:11px;color:#8f9ab3;margin:10px 0}
+.actions{display:flex;gap:8px;margin-top:12px}
+.actions button{flex:1;font-size:12px;padding:10px 7px}
+.delete{background:#713747}
+.empty{
+ text-align:center;background:#111a2c;
+ border:1px dashed #34415c;border-radius:16px;
+ padding:55px 20px;margin-top:30px;color:#aab4cc
+}
+.empty h2{color:white}
+footer{text-align:center;color:#727e96;padding:35px;font-size:12px}
+@media(max-width:600px){
+ header{padding:17px}
+ h1{font-size:26px}
+ .card img{height:210px}
+}
+</style>
+</head>
+<body>
+<header>
+ <div>
+  <div class="logo">Youssef <span>AI Studio</span></div>
+  <div style="font-size:10px;color:#9ba5bd;letter-spacing:2px">YOUR CREATIVE SPACE</div>
+ </div>
+ <a href="index.html">← Back to Studio</a>
+</header>
+
+<main>
+ <div class="top">
+  <div>
+   <h1>My Gallery</h1>
+   <p class="sub">Your generated AI images in one place.</p>
+  </div>
+  <button onclick="loadGallery()">↻ Refresh Gallery</button>
+ </div>
+
+ <div id="status" class="sub" style="margin-top:22px">Loading your images...</div>
+ <div id="gallery" class="grid"></div>
+
+ <div id="empty" class="empty" style="display:none">
+  <h2>Your gallery is empty</h2>
+  <p>Your generated images will appear here after we connect the generator.</p>
+  <a href="index.html">Create your first image →</a>
+ </div>
+</main>
+
+<footer>© 2026 Youssef AI Studio — Create Without Limits</footer>
+
+<script>
+const DB_NAME="YoussefAIStudioDB";
+const STORE_NAME="images";
+let imageUrls=[];
+
+function openDB(){
+ return new Promise((resolve,reject)=>{
+  const request=indexedDB.open(DB_NAME,1);
+  request.onupgradeneeded=()=>{
+   const db=request.result;
+   if(!db.objectStoreNames.contains(STORE_NAME)){
+    db.createObjectStore(STORE_NAME,{keyPath:"id"});
+   }
+  };
+  request.onsuccess=()=>resolve(request.result);
+  request.onerror=()=>reject(request.error);
+ });
+}
+
+async function loadGallery(){
+ const status=document.getElementById("status");
+ const gallery=document.getElementById("gallery");
+ const empty=document.getElementById("empty");
+
+ imageUrls.forEach(url=>URL.revokeObjectURL(url));
+ imageUrls=[];
+
+ gallery.innerHTML="";
+ empty.style.display="none";
+ status.textContent="Loading your images...";
+
+ try{
+  const db=await openDB();
+  const records=await new Promise((resolve,reject)=>{
+   const tx=db.transaction(STORE_NAME,"readonly");
+   const request=tx.objectStore(STORE_NAME).getAll();
+   request.onsuccess=()=>resolve(request.result);
+   request.onerror=()=>reject(request.error);
+  });
+  db.close();
+
+  records.sort((a,b)=>b.createdAt-a.createdAt);
+  status.textContent=records.length+" image(s) saved";
+
+  if(records.length===0){
+   empty.style.display="block";
+   return;
+  }
+
+  records.forEach(item=>{
+   const url=URL.createObjectURL(item.blob);
+   imageUrls.push(url);
+
+   const card=document.createElement("article");
+   card.className="card";
+
+   const img=document.createElement("img");
+   img.src=url;
+   img.alt="Generated image";
+
+   const info=document.createElement("div");
+   info.className="info";
+
+   const prompt=document.createElement("div");
+   prompt.className="prompt";
+   prompt.textContent=item.prompt||"AI Generated Image";
+
+   const meta=document.createElement("div");
+   meta.className="meta";
+   meta.textContent=(item.style||"Default")+" • "+(item.ratio||"Square")
+     +" • "+new Date(item.createdAt).toLocaleDateString();
+
+   const actions=document.createElement("div");
+   actions.className="actions";
+
+   const download=document.createElement("button");
+   download.textContent="Download";
+   download.onclick=()=>{
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="youssef-ai-image.png";
+    a.click();
+   };
+
+   const del=document.createElement("button");
+   del.textContent="Delete";
+   del.className="delete";
+   del.onclick=()=>deleteImage(item.id);
+
+   actions.append(download,del);
+   info.append(prompt,meta,actions);
+   card.append(img,info);
+   gallery.append(card);
+  });
+
+ }catch(error){
+  status.textContent="Could not load gallery: "+error.message;
+ }
+}
+
+async function deleteImage(id){
+ if(!confirm("Delete this image permanently?"))return;
+ try{
+  const db=await openDB();
+  await new Promise((resolve,reject)=>{
+   const tx=db.transaction(STORE_NAME,"readwrite");
+   tx.objectStore(STORE_NAME).delete(id);
+   tx.oncomplete=resolve;
+   tx.onerror=()=>reject(tx.error);
+  });
+  db.close();
+  loadGallery();
+ }catch(error){
+  alert("Could not delete image: "+error.message);
+ }
+}
+
+loadGallery();
+</script>
+</body>
+</html>
