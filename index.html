@@ -5,462 +5,545 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Youssef AI Studio</title>
+
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --bg:#050821;
+  --panel:#0b1030;
+  --purple:#9b35ff;
+  --pink:#ed42ff;
+  --blue:#287dff;
+  --text:#f7f5ff;
+  --muted:#b8b8e9;
+}
+
 *{box-sizing:border-box}
-body{margin:0;background:#090d18;color:#fff;font-family:Arial,sans-serif;min-height:100vh}
-header{padding:22px 7%;border-bottom:1px solid #202a40;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-.logo{font-size:23px;font-weight:bold;color:#a18aff}
-.logo span{color:white}
-.tag{font-size:10px;color:#9ba5bd;letter-spacing:2px;margin-top:5px}
-nav{display:flex;gap:20px}
-nav a{color:#c5baff;text-decoration:none;font-size:14px}
-main{max-width:1100px;margin:38px auto;padding:0 18px}
-h1{text-align:center;font-size:35px;margin:0 0 9px}
-.subtitle{text-align:center;color:#9ba5bd;margin-bottom:35px}
-.panel{background:#111a2c;border:1px solid #25314a;border-radius:18px;padding:24px;margin-bottom:22px}
-h2{font-size:19px;margin:0 0 8px}
-.description{font-size:13px;color:#929db5;margin:0 0 20px;line-height:1.6}
-label{display:block;color:#c2c9dc;font-size:13px;margin:16px 0 9px}
-textarea{width:100%;background:#0b1220;color:white;border:1px solid #34415c;border-radius:10px;padding:14px;font-size:15px;outline:none;min-height:110px;resize:vertical;line-height:1.6}
-textarea:focus{border-color:#9d8cff}
-button{border:0;border-radius:10px;padding:12px 17px;font-weight:bold;cursor:pointer;font-size:13px;transition:.2s}
-button:hover{opacity:.88;transform:translateY(-1px)}
-button:disabled{opacity:.5;cursor:wait;transform:none}
-.primary{background:#8466f5;color:white}
-.secondary{background:#26334c;color:white}
-.green{background:#167e68;color:white}
-.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-.status{color:#aab4cc;font-size:13px;margin-top:12px;line-height:1.6}
-.result{display:none;margin-top:22px}
-.result img{width:100%;max-height:650px;object-fit:contain;border-radius:12px;background:#080d18}
-.section-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:22px 0 13px}
-.section-heading h3{font-size:15px;margin:0}
-.section-heading span{font-size:11px;color:#8e9ab2}
-.ratio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.ratio-card{
- background:#0b1220;border:1px solid #303d57;border-radius:13px;
- color:white;padding:13px 8px;display:flex;flex-direction:column;
- align-items:center;gap:9px;min-height:145px
+body{
+  margin:0;
+  background:radial-gradient(ellipse at 50% 0%,#17104a 0%,#070a25 48%,#030619 100%);
+  color:var(--text);
+  font-family:Inter,Cairo,sans-serif;
+  min-height:100vh;
 }
-.ratio-card.active{border:2px solid #a18aff;background:#211b3c;box-shadow:0 0 16px #8466f533}
-.ratio-preview{height:65px;width:65px;display:flex;align-items:center;justify-content:center}
-.ratio-shape{border:2px solid #ad9bff;background:#29234b;border-radius:5px}
-.square-shape{width:48px;height:48px}
-.portrait-shape{width:34px;height:60px}
-.landscape-shape{width:64px;height:37px}
-.ratio-name{font-size:12px;font-weight:bold}
-.ratio-detail{font-size:10px;color:#a5afc5}
-.style-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.topbar{
+  height:88px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 28px;
+  border-bottom:1px solid #5420a5;
+  background:#050820ed;
+  position:sticky;
+  top:0;
+  z-index:10;
+  box-shadow:0 5px 30px #7100ff20;
+}
+.brand{display:flex;align-items:center;gap:13px}
+.logo{
+  width:65px;height:65px;border-radius:20px;
+  display:grid;place-items:center;
+  font-size:38px;color:#d99aff;
+  background:linear-gradient(135deg,#281064,#090d32);
+  border:1px solid #8d39ff;
+  box-shadow:0 0 22px #a000ff88;
+}
+.brand h1{font-size:27px;margin:0;font-weight:900}
+.brand h1 span{color:#bd50ff}
+.brand small{display:block;letter-spacing:4px;color:#c8c4ef;font-size:11px;margin-top:4px}
+.nav{display:flex;gap:12px;align-items:center}
+.nav a{
+  color:#ddd9ff;text-decoration:none;padding:13px 19px;
+  border-radius:30px;font-weight:700;
+}
+.nav a.active,.nav a:hover{
+  background:linear-gradient(100deg,#6520d9,#a322ff);
+  box-shadow:0 0 20px #922dff88;
+}
+.powered{
+  border:1px solid #a77bff;border-radius:30px;
+  padding:11px 17px;font-size:12px;font-weight:800;
+  box-shadow:0 0 15px #a52aff55;
+}
+.hero{
+  min-height:165px;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:25px 15px;
+  background:
+    radial-gradient(ellipse at 15% 90%,#4820a9aa,transparent 35%),
+    radial-gradient(ellipse at 85% 20%,#172f8caa,transparent 40%);
+}
+.hero h2{
+  font-size:clamp(30px,4vw,48px);margin:0 0 8px;
+  font-weight:900;font-style:italic;
+  background:linear-gradient(90deg,#fff,#78c8ff,#e35cff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{margin:0;color:#c9c9ff;font-size:18px;font-weight:600}
+.layout{display:flex;max-width:1800px;margin:auto}
+.sidebar{
+  width:125px;flex-shrink:0;padding:18px 9px;
+  display:flex;flex-direction:column;gap:13px;
+}
+.side-link{
+  text-decoration:none;color:#c7c4ff;text-align:center;
+  padding:17px 5px;border:1px solid transparent;border-radius:15px;
+  font-size:13px;font-weight:700;
+}
+.side-link span{display:block;font-size:27px;margin-bottom:8px}
+.side-link.active,.side-link:hover{
+  color:white;border-color:#9b3aff;
+  background:linear-gradient(145deg,#41118d,#11143b);
+  box-shadow:0 0 18px #a02cff77;
+}
+.main{flex:1;min-width:0;padding:0 22px 45px}
+.panel{
+  background:linear-gradient(135deg,#0c1235f5,#080d29f5);
+  border:1px solid #6840b7;border-radius:22px;
+  padding:18px;margin-bottom:18px;
+  box-shadow:0 0 25px #4d1da322,inset 0 0 25px #1d1b5a33;
+}
+.section-head{display:flex;align-items:center;gap:15px;margin-bottom:15px}
+.section-icon{
+  width:55px;height:55px;display:grid;place-items:center;
+  font-size:32px;color:#c17bff;
+}
+.section-head h3{font-size:22px;margin:0 0 4px}
+.section-head h3 span{color:#e35bff}
+.section-head p{margin:0;color:#c3c2f2;font-size:14px}
+.pill{
+  margin-left:auto;border:1px solid #9d5bff;
+  padding:9px 15px;border-radius:25px;color:#d9c5ff;
+  font-size:13px;font-weight:700;white-space:nowrap;
+}
+.size-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.size-card{
+  min-width:0;display:flex;align-items:center;gap:13px;
+  padding:8px;border-radius:19px;
+  border:1px solid #555a9a;background:#101735;
+  color:white;text-align:left;transition:.2s;
+}
+.size-card:hover,.size-card.selected{
+  border:2px solid #c34aff;
+  box-shadow:0 0 18px #ad32ff, inset 0 0 18px #8b24ff33;
+}
+.size-art{
+  width:47%;height:145px;flex-shrink:0;border-radius:13px;
+  display:grid;place-items:center;overflow:hidden;
+  position:relative;font-size:55px;
+  background:linear-gradient(145deg,#ff7b70,#8a2cff,#122d83);
+}
+.size-art:after,.style-art:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(transparent 40%,#05082099);
+}
+.size-art.instagram{background:radial-gradient(circle at 50% 35%,#ffd66d,#fa4c84 42%,#5423a9 75%,#092b4a)}
+.size-art.tiktok{background:linear-gradient(135deg,#071b4b,#e400a8,#04c9e7)}
+.size-art.youtube{background:linear-gradient(145deg,#f99a55,#233d87,#081d40)}
+.size-art span,.style-art span{position:relative;z-index:1;filter:drop-shadow(0 4px 5px #000)}
+.size-info{padding:8px 5px;min-width:0}
+.size-info strong{font-size:17px;display:block;margin-bottom:6px}
+.size-info small{color:#c6c4ff;font-size:14px;font-weight:700}
+.size-info p{font-size:12px;color:#dedcff;margin:10px 0 0;line-height:1.5}
+.styles-grid{
+  display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;
+}
 .style-card{
- background:#0b1220;border:1px solid #303d57;border-radius:13px;
- padding:7px;color:white;text-align:left;min-width:0
+  border:1px solid #59609a;background:#10152f;color:white;
+  padding:0;border-radius:16px;overflow:hidden;text-align:center;
+  min-width:0;transition:.2s;
 }
-.style-card.active{border:2px solid #a18aff;background:#211b3c;box-shadow:0 0 15px #8466f533}
-.art{
- height:110px;border-radius:9px;overflow:hidden;position:relative;
- display:flex;align-items:center;justify-content:center;
- font-size:44px;background:linear-gradient(140deg,#29395d,#7655a6)
+.style-card:hover,.style-card.selected{
+  border:2px solid #c24aff;
+  box-shadow:0 0 18px #a62dff;
+  transform:translateY(-2px);
 }
-.art:before{content:"";position:absolute;width:85px;height:85px;border-radius:50%;background:#ffffff20;top:-35px;right:-15px}
-.art:after{content:"";position:absolute;width:100px;height:32px;bottom:-12px;left:-15px;background:#ffffff20;transform:rotate(-18deg);border-radius:50%}
-.art span{position:relative;z-index:1;filter:drop-shadow(0 5px 5px #0008)}
-.art.default{background:linear-gradient(135deg,#26364f,#8c70c8)}
-.art.realistic{background:linear-gradient(145deg,#8c9b9f,#293d45)}
-.art.anime{background:linear-gradient(135deg,#f3a6d0,#6659a8)}
-.art.cinematic{background:linear-gradient(135deg,#101d35,#bd784c)}
-.art.three-d{background:linear-gradient(135deg,#394e81,#8a68ca)}
-.art.watercolor{background:linear-gradient(135deg,#8bc7d3,#d9a6c5)}
-.art.oil{background:linear-gradient(135deg,#8d5136,#d1a05a)}
-.art.vector{background:linear-gradient(135deg,#e3a64c,#d65f72)}
-.art.cyberpunk{background:linear-gradient(135deg,#1d1b65,#d02caa)}
-.art.pixel{background:linear-gradient(135deg,#234d5a,#4e9c83)}
-.art.fantasy{background:linear-gradient(135deg,#2e275d,#8b65a7)}
-.art.retro{background:linear-gradient(135deg,#b96b4b,#e6bd7b)}
-.art.comic{background:linear-gradient(135deg,#e44e4e,#f0b33e)}
-.style-name{font-size:12px;font-weight:bold;margin:9px 2px 4px}
-.style-desc{font-size:10px;color:#9ba5bd;line-height:1.4;margin:0 2px 5px;min-height:27px}
-.selected-info{font-size:12px;color:#c5baff;margin-top:13px}
-footer{text-align:center;color:#727e96;padding:30px;font-size:12px}
-@media(max-width:750px){.style-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:480px){
- header{padding:17px}
- h1{font-size:27px}
- .panel{padding:16px}
- .style-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
- .art{height:100px}
- .ratio-card{min-height:135px}
+.style-art{
+  height:112px;display:grid;place-items:center;
+  position:relative;overflow:hidden;font-size:48px;
+}
+.style-art span{font-size:48px}
+.style-card:nth-child(1) .style-art{background:linear-gradient(140deg,#6cafff,#6939bd,#f7a3ca)}
+.style-card:nth-child(2) .style-art{background:linear-gradient(140deg,#214b42,#a5a58a,#182d40)}
+.style-card:nth-child(3) .style-art{background:linear-gradient(140deg,#ff9e34,#e83c4e,#37217c)}
+.style-card:nth-child(4) .style-art{background:linear-gradient(140deg,#34246e,#fa789b,#f9c66b)}
+.style-card:nth-child(5) .style-art{background:linear-gradient(140deg,#8edcff,#ffb04c,#5b55df)}
+.style-card:nth-child(6) .style-art{background:linear-gradient(140deg,#a9e7ff,#f5b8cc,#69a56c)}
+.style-card:nth-child(7) .style-art{background:linear-gradient(140deg,#e9a33b,#3d8d48,#f9dc60)}
+.style-card:nth-child(8) .style-art{background:linear-gradient(140deg,#ffb66c,#f06b51,#f6db84)}
+.style-card:nth-child(9) .style-art{background:linear-gradient(140deg,#ee32e8,#172e9d,#04d5e9)}
+.style-card:nth-child(10) .style-art{background:linear-gradient(140deg,#67c95e,#254aab,#f4c85e)}
+.style-card:nth-child(11) .style-art{background:linear-gradient(140deg,#a8b8ff,#7b38ca,#fa9bda)}
+.style-card:nth-child(12) .style-art{background:linear-gradient(140deg,#ffb64c,#e85c3c,#3a4d80)}
+.style-card:nth-child(13) .style-art{background:linear-gradient(140deg,#f7d339,#ee4949,#1b3990)}
+.style-name{padding:7px 3px 9px;background:#080d25}
+.style-name strong{display:block;font-size:13px}
+.style-name small{display:block;color:#d0cafa;font-size:10px;margin-top:3px}
+.prompt-panel textarea{
+  width:100%;min-height:95px;resize:vertical;
+  background:#080d25;color:white;border:1px solid #62519c;
+  border-radius:13px;padding:14px;outline:none;
+}
+.prompt-panel textarea:focus{border-color:#b14aff;box-shadow:0 0 12px #942aff55}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.secondary{
+  background:#171642;color:#e9dcff;border:1px solid #7442b9;
+  border-radius:10px;padding:10px 15px;font-weight:700;
+}
+.generate-wrap{text-align:center;padding:5px 0 25px}
+.generate{
+  color:white;border:1px solid #e4a1ff;border-radius:40px;
+  padding:17px 55px;font-size:21px;font-weight:900;
+  background:linear-gradient(100deg,#6817df,#a30cff,#7325df);
+  box-shadow:0 0 25px #9d26ffbb,0 0 55px #651dff44;
+}
+.generate:hover{filter:brightness(1.2);transform:translateY(-2px)}
+#status{color:#d9caff;margin:14px 0;font-size:14px}
+#result{display:none;margin:20px auto 0;max-width:800px}
+#result img{max-width:100%;border-radius:16px;border:1px solid #a75aff;box-shadow:0 0 25px #7b26ff55}
+footer{text-align:center;color:#7779b0;padding:22px;font-size:12px}
+@media(max-width:1050px){
+  .styles-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .size-art{height:120px}
+  .nav{display:none}
+}
+@media(max-width:700px){
+  .topbar{height:auto;padding:12px}
+  .brand h1{font-size:20px}
+  .logo{width:48px;height:48px;font-size:28px}
+  .powered{display:none}
+  .hero{min-height:130px}
+  .hero p{font-size:14px}
+  .layout{display:block}
+  .sidebar{width:100%;flex-direction:row;justify-content:center;padding:8px;gap:5px}
+  .side-link{flex:1;padding:8px 2px;font-size:10px}
+  .side-link span{font-size:20px;margin-bottom:3px}
+  .main{padding:0 10px 30px}
+  .panel{padding:12px;border-radius:15px}
+  .size-grid{grid-template-columns:1fr}
+  .size-art{height:110px;width:42%}
+  .styles-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .style-art{height:85px}
+  .style-art span{font-size:38px}
+  .style-name strong{font-size:11px}
+  .pill{font-size:10px;padding:7px}
+  .section-head h3{font-size:17px}
+  .generate{padding:15px 35px;font-size:18px}
 }
 </style>
 </head>
+
 <body>
 
-<header>
- <div>
-  <div class="logo">Youssef <span>AI Studio</span></div>
-  <div class="tag">CREATE WITHOUT LIMITS</div>
- </div>
- <nav>
-  <a href="index.html">Home</a>
-  <a href="gallery.html">🖼 Gallery</a>
- </nav>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">✺</div>
+    <div>
+      <h1>Youssef <span>AI Studio</span></h1>
+      <small>CREATE WITHOUT LIMITS</small>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <a class="active" href="index.html">⌂ Home</a>
+    <a href="gallery.html">▣ Gallery</a>
+  </nav>
+
+  <div class="powered">✨ Powered by Pollinations AI</div>
 </header>
 
-<main>
- <h1>Create Something Amazing</h1>
- <p class="subtitle">Your creative AI workspace</p>
-
- <section class="panel">
-  <h2>✨ Prompt Enhancer</h2>
-  <p class="description">Turn your simple idea into a detailed image prompt.</p>
-
-  <label for="prompt">Describe your idea</label>
-  <textarea id="prompt" placeholder="Example: A beautiful cat in space..."></textarea>
-
-  <div class="buttons">
-   <button class="primary" id="enhanceBtn" onclick="enhancePrompt()">✨ Enhance Prompt</button>
-   <button class="secondary" onclick="copyPrompt()">Copy Prompt</button>
+<section class="hero">
+  <div>
+    <h2>Create Something Amazing</h2>
+    <p>Turn your ideas into stunning AI images</p>
   </div>
+</section>
 
-  <div id="enhancedBox" style="display:none;margin-top:20px">
-   <label>Enhanced Prompt</label>
-   <textarea id="enhancedPrompt" readonly></textarea>
-   <div class="buttons">
-    <button class="green" onclick="useEnhanced()">Use This Prompt</button>
-    <button class="secondary" onclick="copyEnhanced()">Copy Enhanced</button>
-   </div>
-  </div>
-  <div class="status" id="enhanceStatus"></div>
- </section>
+<div class="layout">
 
- <section class="panel">
-  <h2>🎨 AI Image Generator</h2>
-  <p class="description">Choose your platform size and visual style, then create your image.</p>
+  <aside class="sidebar">
+    <a class="side-link active" href="#generator"><span>✦</span>Generate Image</a>
+    <a class="side-link" href="#enhancer"><span>✧</span>Enhance Prompt</a>
+    <a class="side-link" href="gallery.html"><span>▧</span>Gallery</a>
+    <a class="side-link" href="#about"><span>ⓘ</span>About</a>
+  </aside>
 
-  <div class="section-heading">
-   <h3>📐 Choose Image Size</h3>
-   <span>SELECT YOUR PLATFORM</span>
-  </div>
+  <main class="main" id="generator">
 
-  <div class="ratio-grid">
-   <button class="ratio-card active" data-ratio="square" onclick="chooseRatio('square',this)">
-    <div class="ratio-preview"><div class="ratio-shape square-shape"></div></div>
-    <div class="ratio-name">Instagram Post</div>
-    <div class="ratio-detail">1:1 · Square</div>
-   </button>
+    <section class="panel">
+      <div class="section-head">
+        <div class="section-icon">▣</div>
+        <div>
+          <h3>1. Choose <span>Image Size</span></h3>
+          <p>Select your platform</p>
+        </div>
+        <div class="pill">⭐ Popular Sizes</div>
+      </div>
 
-   <button class="ratio-card" data-ratio="portrait" onclick="chooseRatio('portrait',this)">
-    <div class="ratio-preview"><div class="ratio-shape portrait-shape"></div></div>
-    <div class="ratio-name">TikTok / Reels</div>
-    <div class="ratio-detail">9:16 · Vertical</div>
-   </button>
+      <div class="size-grid">
+        <button class="size-card selected" data-ratio="square" onclick="chooseRatio('square',this)">
+          <div class="size-art instagram"><span>📸</span></div>
+          <div class="size-info">
+            <strong>Instagram Post</strong>
+            <small>1:1 • Square</small>
+            <p>Perfect for Instagram posts</p>
+          </div>
+        </button>
 
-   <button class="ratio-card" data-ratio="landscape" onclick="chooseRatio('landscape',this)">
-    <div class="ratio-preview"><div class="ratio-shape landscape-shape"></div></div>
-    <div class="ratio-name">YouTube</div>
-    <div class="ratio-detail">16:9 · Landscape</div>
-   </button>
-  </div>
+        <button class="size-card" data-ratio="portrait" onclick="chooseRatio('portrait',this)">
+          <div class="size-art tiktok"><span>🎵</span></div>
+          <div class="size-info">
+            <strong>TikTok / Reels</strong>
+            <small>9:16 • Vertical</small>
+            <p>Ideal for TikTok and Reels</p>
+          </div>
+        </button>
 
-  <div class="selected-info" id="ratioInfo">Selected: Instagram Post · Square</div>
+        <button class="size-card" data-ratio="landscape" onclick="chooseRatio('landscape',this)">
+          <div class="size-art youtube"><span>▶️</span></div>
+          <div class="size-info">
+            <strong>YouTube</strong>
+            <small>16:9 • Landscape</small>
+            <p>Great for YouTube thumbnails</p>
+          </div>
+        </button>
+      </div>
+    </section>
 
-  <div class="section-heading" style="margin-top:30px">
-   <h3>🖌 Choose Your Style</h3>
-   <span>12+ VISUAL STYLES</span>
-  </div>
+    <section class="panel">
+      <div class="section-head">
+        <div class="section-icon">🎨</div>
+        <div>
+          <h3>2. Choose <span>Your Style</span></h3>
+          <p>Pick the style that matches your vision</p>
+        </div>
+        <div class="pill">⭐ 13+ Styles</div>
+      </div>
 
-  <div class="style-grid" id="styleGrid">
+      <div class="styles-grid" id="stylesGrid"></div>
+    </section>
 
-   <button class="style-card active" data-style="none" onclick="chooseStyle('none',this)">
-    <div class="art default"><span>🎨</span></div>
-    <div class="style-name">Default</div>
-    <p class="style-desc">Original AI artwork</p>
-   </button>
+    <section class="panel prompt-panel" id="enhancer">
+      <div class="section-head">
+        <div class="section-icon">✧</div>
+        <div>
+          <h3>3. Describe <span>Your Idea</span></h3>
+          <p>Write what you want to create</p>
+        </div>
+      </div>
 
-   <button class="style-card" data-style="realistic" onclick="chooseStyle('realistic',this)">
-    <div class="art realistic"><span>🐺</span></div>
-    <div class="style-name">Realistic</div>
-    <p class="style-desc">Photorealistic images</p>
-   </button>
+      <textarea id="prompt" placeholder="Describe your image... Example: A majestic white wolf standing on a snowy mountain at sunset"></textarea>
 
-   <button class="style-card" data-style="anime" onclick="chooseStyle('anime',this)">
-    <div class="art anime"><span>🌸</span></div>
-    <div class="style-name">Anime</div>
-    <p class="style-desc">Japanese anime artwork</p>
-   </button>
+      <div class="action-row">
+        <button class="secondary" onclick="enhancePrompt()">✨ Enhance Prompt</button>
+        <button class="secondary" onclick="clearPrompt()">Clear</button>
+      </div>
 
-   <button class="style-card" data-style="cinematic" onclick="chooseStyle('cinematic',this)">
-    <div class="art cinematic"><span>🎬</span></div>
-    <div class="style-name">Cinematic</div>
-    <p class="style-desc">Movie-style lighting</p>
-   </button>
+      <div id="enhancedArea" style="display:none;margin-top:15px">
+        <p style="color:#c9a8ff;font-weight:bold">Enhanced prompt</p>
+        <textarea id="enhancedPrompt" readonly></textarea>
+        <div class="action-row">
+          <button class="secondary" onclick="useEnhanced()">Use This Prompt</button>
+          <button class="secondary" onclick="copyEnhanced()">Copy</button>
+        </div>
+      </div>
+    </section>
 
-   <button class="style-card" data-style="3d" onclick="chooseStyle('3d',this)">
-    <div class="art three-d"><span>🧊</span></div>
-    <div class="style-name">3D Render</div>
-    <p class="style-desc">Three-dimensional art</p>
-   </button>
+    <div class="generate-wrap">
+      <button class="generate" id="generateBtn" onclick="generateImage()">✧ Generate Image →</button>
+      <div id="status"></div>
+      <div id="result">
+        <img id="resultImage" alt="Generated AI image">
+        <div class="action-row" style="justify-content:center">
+          <button class="secondary" onclick="downloadImage()">⬇ Download Image</button>
+        </div>
+      </div>
+    </div>
 
-   <button class="style-card" data-style="watercolor" onclick="chooseStyle('watercolor',this)">
-    <div class="art watercolor"><span>🖌️</span></div>
-    <div class="style-name">Watercolor</div>
-    <p class="style-desc">Soft watercolor painting</p>
-   </button>
-
-   <button class="style-card" data-style="oil" onclick="chooseStyle('oil',this)">
-    <div class="art oil"><span>🖼️</span></div>
-    <div class="style-name">Oil Painting</div>
-    <p class="style-desc">Classic oil paint texture</p>
-   </button>
-
-   <button class="style-card" data-style="vector" onclick="chooseStyle('vector',this)">
-    <div class="art vector"><span>🔶</span></div>
-    <div class="style-name">Vector Art</div>
-    <p class="style-desc">Clean graphic illustration</p>
-   </button>
-
-   <button class="style-card" data-style="cyberpunk" onclick="chooseStyle('cyberpunk',this)">
-    <div class="art cyberpunk"><span>🌃</span></div>
-    <div class="style-name">Cyberpunk</div>
-    <p class="style-desc">Neon futuristic world</p>
-   </button>
-
-   <button class="style-card" data-style="pixel" onclick="chooseStyle('pixel',this)">
-    <div class="art pixel"><span>👾</span></div>
-    <div class="style-name">Pixel Art</div>
-    <p class="style-desc">Retro video game style</p>
-   </button>
-
-   <button class="style-card" data-style="fantasy" onclick="chooseStyle('fantasy',this)">
-    <div class="art fantasy"><span>🐉</span></div>
-    <div class="style-name">Fantasy</div>
-    <p class="style-desc">Magical fantasy worlds</p>
-   </button>
-
-   <button class="style-card" data-style="retro" onclick="chooseStyle('retro',this)">
-    <div class="art retro"><span>📷</span></div>
-    <div class="style-name">Retro</div>
-    <p class="style-desc">Vintage nostalgic look</p>
-   </button>
-
-   <button class="style-card" data-style="comic" onclick="chooseStyle('comic',this)">
-    <div class="art comic"><span>💥</span></div>
-    <div class="style-name">Comic Book</div>
-    <p class="style-desc">Bold comic illustrations</p>
-   </button>
-
-  </div>
-
-  <div class="selected-info" id="styleInfo">Selected: Default</div>
-
-  <div class="buttons" style="margin-top:25px">
-   <button class="primary" id="generateBtn" onclick="generateImage()">✨ Generate Image</button>
-  </div>
-
-  <div class="status" id="imageStatus"></div>
-
-  <div class="result" id="result">
-   <img id="generatedImage" alt="Generated AI image">
-   <div class="buttons">
-    <button class="green" onclick="downloadImage()">⬇ Download Image</button>
-   </div>
-  </div>
- </section>
-</main>
-
-<footer>© 2026 Youssef AI Studio — Create Without Limits</footer>
+    <footer id="about">© 2026 Youssef AI Studio — Create Without Limits</footer>
+  </main>
+</div>
 
 <script>
-const API_URL="https://youssef-ai-studio-api.kiryabokiry.workers.dev";
-const DB_NAME="YoussefAIStudioDB";
-const STORE_NAME="images";
+const API_URL = "https://youssef-ai-studio-api.kiryabokiry.workers.dev";
 
-let selectedRatio="square";
-let selectedStyle="none";
-let currentImageURL=null;
+let selectedRatio = "square";
+let selectedStyle = "none";
+let currentImageBlob = null;
+let currentImageUrl = null;
+
+const styles = [
+  ["none","Default","Original AI art","🏰"],
+  ["realistic","Realistic","Photorealistic","🐺"],
+  ["anime","Anime","Japanese anime","🧑🏻‍🎤"],
+  ["cinematic","Cinematic","Movie style","🌕"],
+  ["3d","3D Render","3D characters","🐉"],
+  ["watercolor","Watercolor","Watercolor art","🏡"],
+  ["oil","Oil Painting","Oil painting style","🌻"],
+  ["vector","Vector Art","Clean vector","🏙️"],
+  ["cyberpunk","Cyberpunk","Futuristic neon","🚘"],
+  ["pixel","Pixel Art","Retro pixel style","👾"],
+  ["fantasy","Fantasy","Fantasy worlds","🐲"],
+  ["retro","Retro","Vintage look","📷"],
+  ["comic","Comic Book","Comic style","🦸"]
+];
+
+const stylesGrid = document.getElementById("stylesGrid");
+
+styles.forEach((style,index)=>{
+  const card = document.createElement("button");
+  card.className = "style-card" + (index===0 ? " selected" : "");
+  card.dataset.style = style[0];
+  card.innerHTML = `
+    <div class="style-art"><span>${style[3]}</span></div>
+    <div class="style-name">
+      <strong>${style[1]}</strong>
+      <small>${style[2]}</small>
+    </div>`;
+  card.onclick = ()=>chooseStyle(style[0],card);
+  stylesGrid.appendChild(card);
+});
 
 function chooseRatio(ratio,button){
- selectedRatio=ratio;
- document.querySelectorAll(".ratio-card").forEach(card=>card.classList.remove("active"));
- button.classList.add("active");
-
- const names={
-  square:"Instagram Post · Square",
-  portrait:"TikTok / Reels · Vertical",
-  landscape:"YouTube · Landscape"
- };
-
- document.getElementById("ratioInfo").textContent="Selected: "+names[ratio];
+  selectedRatio = ratio;
+  document.querySelectorAll(".size-card").forEach(card=>card.classList.remove("selected"));
+  button.classList.add("selected");
 }
 
 function chooseStyle(style,button){
- selectedStyle=style;
- document.querySelectorAll(".style-card").forEach(card=>card.classList.remove("active"));
- button.classList.add("active");
-
- const names={
-  none:"Default",
-  realistic:"Realistic",
-  anime:"Anime",
-  cinematic:"Cinematic",
-  "3d":"3D Render",
-  watercolor:"Watercolor",
-  oil:"Oil Painting",
-  vector:"Vector Art",
-  cyberpunk:"Cyberpunk",
-  pixel:"Pixel Art",
-  fantasy:"Fantasy",
-  retro:"Retro",
-  comic:"Comic Book"
- };
-
- document.getElementById("styleInfo").textContent="Selected: "+names[style];
-}
-
-function openDB(){
- return new Promise((resolve,reject)=>{
-  const request=indexedDB.open(DB_NAME,1);
-  request.onupgradeneeded=()=>{
-   const db=request.result;
-   if(!db.objectStoreNames.contains(STORE_NAME)){
-    db.createObjectStore(STORE_NAME,{keyPath:"id"});
-   }
-  };
-  request.onsuccess=()=>resolve(request.result);
-  request.onerror=()=>reject(request.error);
- });
-}
-
-async function saveImage(blob,prompt,style,ratio){
- const db=await openDB();
- return new Promise((resolve,reject)=>{
-  const tx=db.transaction(STORE_NAME,"readwrite");
-  tx.objectStore(STORE_NAME).add({
-   id:Date.now()+"-"+Math.random().toString(36).slice(2),
-   blob:blob,
-   prompt:prompt,
-   style:style,
-   ratio:ratio,
-   createdAt:Date.now()
-  });
-  tx.oncomplete=()=>{db.close();resolve(true)};
-  tx.onerror=()=>{db.close();reject(tx.error)};
- });
+  selectedStyle = style;
+  document.querySelectorAll(".style-card").forEach(card=>card.classList.remove("selected"));
+  button.classList.add("selected");
 }
 
 function enhancePrompt(){
- const input=document.getElementById("prompt").value.trim();
- const status=document.getElementById("enhanceStatus");
- const btn=document.getElementById("enhanceBtn");
-
- if(!input){
-  status.textContent="Please enter your idea first.";
-  return;
- }
-
- btn.disabled=true;
- btn.textContent="Enhancing...";
- status.textContent="Improving your prompt...";
-
- const details=", highly detailed composition, beautiful lighting, rich colors, professional quality, carefully designed background, sharp focus, intricate details, visually stunning artwork";
-
- document.getElementById("enhancedPrompt").value=input+details;
- document.getElementById("enhancedBox").style.display="block";
-
- status.textContent="Your enhanced prompt is ready!";
- btn.disabled=false;
- btn.textContent="✨ Enhance Prompt";
+  const prompt = document.getElementById("prompt").value.trim();
+  if(!prompt){
+    alert("Please enter your image description first.");
+    return;
+  }
+  const enhanced = prompt + ", highly detailed, beautiful composition, professional lighting, rich colors, sharp focus, high quality artwork";
+  document.getElementById("enhancedPrompt").value = enhanced;
+  document.getElementById("enhancedArea").style.display = "block";
 }
 
 function useEnhanced(){
- const enhanced=document.getElementById("enhancedPrompt").value;
- document.getElementById("prompt").value=enhanced;
- document.getElementById("prompt").scrollIntoView({behavior:"smooth",block:"center"});
- document.getElementById("imageStatus").textContent="Enhanced prompt added. Ready to generate!";
+  document.getElementById("prompt").value = document.getElementById("enhancedPrompt").value;
+  document.getElementById("prompt").focus();
 }
 
-async function copyPrompt(){
- const value=document.getElementById("prompt").value;
- if(!value.trim())return alert("Enter a prompt first.");
- try{await navigator.clipboard.writeText(value);alert("Prompt copied!")}
- catch(e){alert("Please copy the text manually.")}
+function copyEnhanced(){
+  const value = document.getElementById("enhancedPrompt").value;
+  navigator.clipboard.writeText(value).then(()=>alert("Copied!"));
 }
 
-async function copyEnhanced(){
- const value=document.getElementById("enhancedPrompt").value;
- if(!value)return;
- try{await navigator.clipboard.writeText(value);alert("Enhanced prompt copied!")}
- catch(e){alert("Please copy the text manually.")}
+function clearPrompt(){
+  document.getElementById("prompt").value = "";
+  document.getElementById("enhancedArea").style.display = "none";
+}
+
+function openDB(){
+  return new Promise((resolve,reject)=>{
+    const request = indexedDB.open("YoussefAIStudioDB",1);
+    request.onupgradeneeded = ()=>{
+      const db = request.result;
+      if(!db.objectStoreNames.contains("images")){
+        db.createObjectStore("images",{keyPath:"id",autoIncrement:true});
+      }
+    };
+    request.onsuccess = ()=>resolve(request.result);
+    request.onerror = ()=>reject(request.error);
+  });
+}
+
+async function saveImage(blob,prompt,style,ratio){
+  const db = await openDB();
+  return new Promise((resolve,reject)=>{
+    const transaction = db.transaction("images","readwrite");
+    transaction.objectStore("images").add({
+      image:blob,
+      prompt,
+      style,
+      ratio,
+      date:new Date().toISOString()
+    });
+    transaction.oncomplete = ()=>resolve();
+    transaction.onerror = ()=>reject(transaction.error);
+  });
 }
 
 async function generateImage(){
- const prompt=document.getElementById("prompt").value.trim();
- const ratio=selectedRatio;
- const style=selectedStyle;
- const btn=document.getElementById("generateBtn");
- const status=document.getElementById("imageStatus");
- const result=document.getElementById("result");
- const img=document.getElementById("generatedImage");
+  const prompt = document.getElementById("prompt").value.trim();
+  const status = document.getElementById("status");
+  const button = document.getElementById("generateBtn");
+  const result = document.getElementById("result");
 
- if(!prompt){
-  status.textContent="Please enter an image description.";
-  return;
- }
-
- btn.disabled=true;
- btn.textContent="Generating...";
- status.textContent="Creating your image. Please wait...";
- result.style.display="none";
-
- try{
-  const response=await fetch(API_URL,{
-   method:"POST",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({prompt:prompt,ratio:ratio,style:style})
-  });
-
-  if(!response.ok){
-   let message="Image generation failed: "+response.status;
-   try{
-    const error=await response.json();
-    if(error.details)message+=" — "+error.details;
-    else if(error.error)message+=" — "+error.error;
-   }catch(e){}
-   throw new Error(message);
+  if(!prompt){
+    alert("Please describe the image you want.");
+    return;
   }
 
-  const blob=await response.blob();
-
-  if(currentImageURL)URL.revokeObjectURL(currentImageURL);
-  currentImageURL=URL.createObjectURL(blob);
-  img.src=currentImageURL;
-  result.style.display="block";
+  button.disabled = true;
+  button.textContent = "⏳ Creating your image...";
+  status.textContent = "Your AI image is being created. Please wait...";
+  result.style.display = "none";
 
   try{
-   await saveImage(blob,prompt,style,ratio);
-   status.textContent="Your image is ready and saved to Gallery! 🎉";
-  }catch(saveError){
-   status.textContent="Image generated, but could not save to Gallery: "+saveError.message;
+    const response = await fetch(API_URL,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        prompt:prompt,
+        ratio:selectedRatio,
+        style:selectedStyle
+      })
+    });
+
+    if(!response.ok){
+      let message = "Generation failed: " + response.status;
+      try{
+        const errorData = await response.json();
+        if(errorData.error) message = errorData.error;
+        if(errorData.details) message += " — " + errorData.details;
+      }catch(e){}
+      throw new Error(message);
+    }
+
+    currentImageBlob = await response.blob();
+
+    if(currentImageUrl) URL.revokeObjectURL(currentImageUrl);
+    currentImageUrl = URL.createObjectURL(currentImageBlob);
+
+    document.getElementById("resultImage").src = currentImageUrl;
+    result.style.display = "block";
+
+    try{
+      await saveImage(currentImageBlob,prompt,selectedStyle,selectedRatio);
+      status.textContent = "✨ Image created and saved to your Gallery!";
+    }catch(saveError){
+      status.textContent = "✨ Image created! Gallery save was not available.";
+      console.error(saveError);
+    }
+
+  }catch(error){
+    status.textContent = "❌ " + error.message;
+  }finally{
+    button.disabled = false;
+    button.textContent = "✧ Generate Image →";
   }
-
-  result.scrollIntoView({behavior:"smooth",block:"start"});
-
- }catch(error){
-  status.textContent="Error: "+error.message;
- }finally{
-  btn.disabled=false;
-  btn.textContent="✨ Generate Image";
- }
 }
 
 function downloadImage(){
- if(!currentImageURL)return;
- const link=document.createElement("a");
- link.href=currentImageURL;
- link.download="youssef-ai-image.png";
- document.body.appendChild(link);
- link.click();
- link.remove();
+  if(!currentImageBlob) return;
+  const link = document.createElement("a");
+  link.href = currentImageUrl;
+  link.download = "youssef-ai-image.png";
+  link.click();
 }
 </script>
+
 </body>
 </html>
