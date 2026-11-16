@@ -7,38 +7,23 @@
 <title>Youssef AI Studio</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;background:#090d18;color:#fff;
- font-family:Arial,sans-serif;min-height:100vh;
-}
-header{
- padding:24px 7%;border-bottom:1px solid #202a40;
- display:flex;justify-content:space-between;align-items:center;
-}
+body{margin:0;background:#090d18;color:#fff;font-family:Arial,sans-serif;min-height:100vh}
+header{padding:24px 7%;border-bottom:1px solid #202a40;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
 .logo{font-size:23px;font-weight:bold;color:#9d8cff}
 .logo span{color:white}
 .tag{font-size:11px;color:#a8aabd;letter-spacing:2px}
+nav{display:flex;gap:18px;align-items:center}
+nav a{color:#c4b8ff;text-decoration:none;font-size:14px}
 main{max-width:1000px;margin:40px auto;padding:0 18px}
 h1{text-align:center;font-size:36px;margin-bottom:8px}
 .subtitle{text-align:center;color:#9ba5bd;margin-bottom:35px}
-.panel{
- background:#111a2c;border:1px solid #25314a;
- border-radius:18px;padding:24px;margin-bottom:22px;
-}
+.panel{background:#111a2c;border:1px solid #25314a;border-radius:18px;padding:24px;margin-bottom:22px}
 h2{font-size:19px;margin:0 0 15px}
 label{display:block;color:#c2c9dc;font-size:13px;margin:16px 0 8px}
-textarea,select{
- width:100%;background:#0b1220;color:white;
- border:1px solid #34415c;border-radius:10px;
- padding:13px;font-size:15px;outline:none;
-}
+textarea,select{width:100%;background:#0b1220;color:white;border:1px solid #34415c;border-radius:10px;padding:13px;font-size:15px;outline:none}
 textarea{min-height:110px;resize:vertical;line-height:1.6}
 textarea:focus,select:focus{border-color:#9d8cff}
-button{
- border:0;border-radius:10px;padding:13px 18px;
- font-weight:bold;cursor:pointer;font-size:14px;
- transition:.2s;
-}
+button{border:0;border-radius:10px;padding:13px 18px;font-weight:bold;cursor:pointer;font-size:14px;transition:.2s}
 button:hover{opacity:.88;transform:translateY(-1px)}
 .primary{background:#8466f5;color:white}
 .secondary{background:#26334c;color:white}
@@ -50,13 +35,7 @@ button:disabled{opacity:.5;cursor:wait;transform:none}
 .result img{width:100%;border-radius:12px;display:block}
 .status{color:#aab4cc;font-size:13px;margin-top:12px;line-height:1.6}
 footer{text-align:center;color:#727e96;padding:30px;font-size:12px}
-@media(max-width:600px){
- header{padding:18px}
- h1{font-size:28px}
- .panel{padding:17px}
- .grid{grid-template-columns:1fr}
- .buttons button{flex:1}
-}
+@media(max-width:600px){header{padding:18px}h1{font-size:28px}.panel{padding:17px}.grid{grid-template-columns:1fr}.buttons button{flex:1}}
 </style>
 </head>
 <body>
@@ -66,7 +45,10 @@ footer{text-align:center;color:#727e96;padding:30px;font-size:12px}
   <div class="logo">Youssef <span>AI Studio</span></div>
   <div class="tag">CREATE WITHOUT LIMITS</div>
  </div>
- <div style="color:#a9a1ff;font-size:13px">AI IMAGE STUDIO</div>
+ <nav>
+  <a href="index.html">Home</a>
+  <a href="gallery.html">🖼 Gallery</a>
+ </nav>
 </header>
 
 <main>
@@ -75,20 +57,14 @@ footer{text-align:center;color:#727e96;padding:30px;font-size:12px}
 
  <section class="panel">
   <h2>✨ Prompt Enhancer</h2>
-  <p style="color:#9ba5bd;font-size:13px">
-   Turn a simple idea into a detailed image prompt.
-  </p>
+  <p style="color:#9ba5bd;font-size:13px">Turn a simple idea into a detailed image prompt.</p>
 
   <label for="prompt">Your idea</label>
   <textarea id="prompt" placeholder="Example: A cat in space..."></textarea>
 
   <div class="buttons">
-   <button class="primary" id="enhanceBtn" onclick="enhancePrompt()">
-    ✨ Enhance Prompt
-   </button>
-   <button class="secondary" onclick="copyPrompt()">
-    Copy Prompt
-   </button>
+   <button class="primary" id="enhanceBtn" onclick="enhancePrompt()">✨ Enhance Prompt</button>
+   <button class="secondary" onclick="copyPrompt()">Copy Prompt</button>
   </div>
 
   <div id="enhancedBox" style="display:none;margin-top:20px">
@@ -130,9 +106,7 @@ footer{text-align:center;color:#727e96;padding:30px;font-size:12px}
   </select>
 
   <div class="buttons">
-   <button class="primary" id="generateBtn" onclick="generateImage()">
-    Generate Image
-   </button>
+   <button class="primary" id="generateBtn" onclick="generateImage()">Generate Image</button>
   </div>
 
   <div class="status" id="imageStatus"></div>
@@ -149,7 +123,48 @@ footer{text-align:center;color:#727e96;padding:30px;font-size:12px}
 <footer>© 2026 Youssef AI Studio — Create Without Limits</footer>
 
 <script>
-const API_URL = "https://youssef-ai-studio-api.kiryabokiry.workers.dev";
+const API_URL="https://youssef-ai-studio-api.kiryabokiry.workers.dev";
+const DB_NAME="YoussefAIStudioDB";
+const STORE_NAME="images";
+
+let currentImageURL=null;
+
+function openDB(){
+ return new Promise((resolve,reject)=>{
+  const request=indexedDB.open(DB_NAME,1);
+
+  request.onupgradeneeded=()=>{
+   const db=request.result;
+   if(!db.objectStoreNames.contains(STORE_NAME)){
+    db.createObjectStore(STORE_NAME,{keyPath:"id"});
+   }
+  };
+
+  request.onsuccess=()=>resolve(request.result);
+  request.onerror=()=>reject(request.error);
+ });
+}
+
+async function saveImage(blob,prompt,style,ratio){
+ const db=await openDB();
+
+ return new Promise((resolve,reject)=>{
+  const tx=db.transaction(STORE_NAME,"readwrite");
+  const store=tx.objectStore(STORE_NAME);
+
+  store.add({
+   id:Date.now()+"-"+Math.random().toString(36).slice(2),
+   blob:blob,
+   prompt:prompt,
+   style:style,
+   ratio:ratio,
+   createdAt:Date.now()
+  });
+
+  tx.oncomplete=()=>{db.close();resolve(true)};
+  tx.onerror=()=>{db.close();reject(tx.error)};
+ });
+}
 
 function enhancePrompt(){
  const input=document.getElementById("prompt").value.trim();
@@ -165,15 +180,9 @@ function enhancePrompt(){
  btn.textContent="Enhancing...";
  status.textContent="Improving your prompt...";
 
- // Local prompt enhancement: no additional API or paid service.
- const details =
- ", highly detailed composition, beautiful lighting, rich colors, " +
- "professional quality, carefully designed background, sharp focus, " +
- "intricate details, visually stunning artwork";
+ const details=", highly detailed composition, beautiful lighting, rich colors, professional quality, carefully designed background, sharp focus, intricate details, visually stunning artwork";
 
- const enhanced = input + details;
-
- document.getElementById("enhancedPrompt").value=enhanced;
+ document.getElementById("enhancedPrompt").value=input+details;
  document.getElementById("enhancedBox").style.display="block";
 
  status.textContent="Your enhanced prompt is ready!";
@@ -191,15 +200,15 @@ function useEnhanced(){
 async function copyPrompt(){
  const value=document.getElementById("prompt").value;
  if(!value.trim())return alert("Enter a prompt first.");
- await navigator.clipboard.writeText(value);
- alert("Prompt copied!");
+ try{await navigator.clipboard.writeText(value);alert("Prompt copied!")}
+ catch(e){alert("Could not copy. Please copy it manually.")}
 }
 
 async function copyEnhanced(){
  const value=document.getElementById("enhancedPrompt").value;
  if(!value)return;
- await navigator.clipboard.writeText(value);
- alert("Enhanced prompt copied!");
+ try{await navigator.clipboard.writeText(value);alert("Enhanced prompt copied!")}
+ catch(e){alert("Could not copy. Please copy it manually.")}
 }
 
 async function generateImage(){
@@ -225,11 +234,7 @@ async function generateImage(){
   const response=await fetch(API_URL,{
    method:"POST",
    headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({
-    prompt:prompt,
-    ratio:ratio,
-    style:style
-   })
+   body:JSON.stringify({prompt:prompt,ratio:ratio,style:style})
   });
 
   if(!response.ok){
@@ -243,10 +248,19 @@ async function generateImage(){
   }
 
   const blob=await response.blob();
-  const imageURL=URL.createObjectURL(blob);
-  img.src=imageURL;
+
+  if(currentImageURL)URL.revokeObjectURL(currentImageURL);
+  currentImageURL=URL.createObjectURL(blob);
+  img.src=currentImageURL;
   result.style.display="block";
-  status.textContent="Your image is ready!";
+
+  try{
+   await saveImage(blob,prompt,style,ratio);
+   status.textContent="Your image is ready and saved to Gallery! 🎉";
+  }catch(saveError){
+   status.textContent="Image generated, but could not save to Gallery: "+saveError.message;
+  }
+
   result.scrollIntoView({behavior:"smooth",block:"start"});
 
  }catch(error){
@@ -258,10 +272,9 @@ async function generateImage(){
 }
 
 function downloadImage(){
- const img=document.getElementById("generatedImage");
- if(!img.src)return;
+ if(!currentImageURL)return;
  const link=document.createElement("a");
- link.href=img.src;
+ link.href=currentImageURL;
  link.download="youssef-ai-image.png";
  document.body.appendChild(link);
  link.click();
