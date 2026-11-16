@@ -96,12 +96,62 @@ document.getElementById('file').addEventListener('change',function(){
   img.style.display='block';
  }
 });
-function generate(){
- let p=document.getElementById('prompt').value.trim();
- if(!p){alert('اكتب وصف فكرتك أولاً');return;}
- document.getElementById('status').textContent=
- 'تم تجهيز طلبك. سيتم تفعيل التوليد عند ربط محرك الذكاء الاصطناعي.';
+
+async function generate() {
+  const p = document.getElementById('prompt').value.trim();
+  const status = document.getElementById('status');
+
+  if (!p) {
+    alert('اكتب وصف الصورة أولاً');
+    return;
+  }
+
+  status.textContent = 'جاري إنشاء الصورة... انتظر قليلاً';
+
+  try {
+    const response = await fetch(
+      'https://youssef-ai-studio-api.kiryabokiry.workers.dev',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prompt: p })
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(error);
+    }
+
+    const blob = await response.blob();
+    const imageUrl = URL.createObjectURL(blob);
+
+    let result = document.getElementById('generatedImage');
+
+    if (!result) {
+      result = document.createElement('img');
+      result.id = 'generatedImage';
+      result.style.width = '100%';
+      result.style.maxWidth = '600px';
+      result.style.display = 'block';
+      result.style.margin = '20px auto';
+      result.style.borderRadius = '12px';
+      status.insertAdjacentElement('afterend', result);
+    }
+
+    result.src = imageUrl;
+    result.alt = p;
+
+    status.textContent = 'تم إنشاء الصورة بنجاح! 🎉';
+
+  } catch (error) {
+    console.error(error);
+    status.textContent = 'فشل إنشاء الصورة: ' + error.message;
+  }
 }
+
 </script>
 </body>
 </html>
